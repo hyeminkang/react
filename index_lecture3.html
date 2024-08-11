@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script> <!-- 인터랙티브를 만들어주는 라이브러리 -->
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script> <!-- 리액트돔, 패키지 모든 리액트엘리먼트들을 html body 에 둘수있도록 해줌 -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+
+    function MinutesToHours() {
+      const [amount, setAmount] = React.useState(0) // useState 안으로는 default 값이므로 빈칸으로도 둘수있고, 0, "" 가능 // [] 안으로 첫번째는 value(값), 두번째는 컴포넌트를 새로고침할때 쓰는 함수
+      const [intervted, setInverted] = React.useState(false) // flip은 Hours > Minutes 단위변환
+      const onChangee = (event) => {
+        setAmount(event.target.value); 
+      }
+      const reset = () => {
+        setAmount(0)
+      }
+      const onInverted = () => {
+        reset()
+        setInverted((current) => !current)
+      }
+      
+      return (
+      <div>
+        <div>
+          <label htmlFor="minutes">Minutes</label>
+            <input
+              value={intervted ? amount * 60 : amount} 
+              placeholder="minutes"
+              id="minutes"
+              type="number"
+              onChange={onChangee}
+              disabled={intervted === true} />
+        </div>
+        
+        <h4>minutes {amount}</h4>
+        <div>
+          <label htmlFor="hours">hours</label>
+          <input 
+            value={intervted ? amount : Math.round(amount /60)} 
+            placeholder="hours" 
+            id="hours"
+            type="number"
+            onChange={onChangee}
+            disabled={intervted === false} />
+        </div>
+        <h4>hours {Math.round(amount / 60)}</h4>
+
+        <button onClick={reset}>Reset</button>
+        <button onClick={onInverted}>{intervted ? "Turn back" : "invert"}</button>
+        
+      </div>
+      ) // hours를 나타내는 input은 onchange 함수가 없으므로 값을 바꿀순 없음, 
+    }
+    function KmToMiles() {
+       const [amount, setAmount] = React.useState(0);
+      const [inverted, setInverted] = React.useState(false);
+      const onChange = (event) => {
+        setAmount(event.target.value);
+      };
+      const reset = () => setAmount(0);
+      const onInvert = () => {
+        reset();
+        setInverted((current) => !current);
+      };
+      return (
+        <div>
+          <div>
+            <label htmlFor="kilometers">Kilometers</label>
+            <input
+              value={inverted ? amount * 1.609 : amount}
+              id="kilometers"
+              placeholder="kilometers"
+              type="number"
+              onChange={onChange}
+              disabled={inverted === true}
+            />
+          </div>
+          <div>
+            <label htmlFor="miles">Miles</label>
+            <input
+              value={inverted ? amount : amount / 1.609}
+              id="miles"
+              placeholder="miles"
+              type="number"
+              onChange={onChange}
+              disabled={inverted === false}
+            />
+          </div>
+          <button onClick={reset}>Reset</button>
+          <button onClick={onInvert}>
+            {inverted ? "Turn back" : "Invert"}
+          </button>
+        </div>
+      )
+    }
+    function App() {
+      const [index, setIndex] = React.useState("") // 순서는 중요! 첫번째는 데이터, 두번째는 수정하는 함수(modifier 함수며, 이 함수를 실행 시, 하단 내용들이 다시 렌더링됨 )
+      const onSelect = (event) => {
+        setIndex(event.target.value)
+      };
+      console.log('render / w', index)
+      return (
+      <div>
+        <h1 className="hi">Super convertor</h1>
+        <select value={index} onChange={onSelect}>
+          <option value="xx">Select your units</option>
+          <option value="0">Minutes & Hours</option>
+          <option value="1">Km & Miles</option>
+        </select>
+        <hr />
+        {index === "xx" ? "please Select your units": null}
+        {index === "0" ? <MinutesToHours /> : null}
+        {index === "1" ? <KmToMiles /> : null}
+      </div>
+      ) // hours를 나타내는 input은 onchange 함수가 없으므로 값을 바꿀순 없음, 
+    } // jsx 에서 class > classNAme / label for > htmlFor 로 사용해야함
+    // disabled={flipped === true}  >> disalbed{flipped}  disabled={flipped === false}  >> disalbed{!flipped} 로 바꿔쓰기 가넝
+    // flip 이 true 라는건, 시에서 분으로 변환중인 상태라는 뜻
+    const root = document.getElementById("root");
+    ReactDOM.render(<App />, root);
+
+    /* 3.5~3.6 state practice */
+    // const root = document.getElementById("root");
+    // function App() {
+    //   const [minutes, setMinutes] = React.useState() // useState 안으로는 default 값이므로 빈칸으로도 둘수있고, 0, "" 가능 // [] 안으로 첫번째는 value(값), 두번째는 컴포넌트를 새로고침할때 쓰는 함수
+    //   const onChangee = (event) => {
+    //     setMinutes(event.target.value); 
+    //   }
+    //   const reset = () => {
+    //     setMinutes(0)
+    //   }
+    //   return (
+    //   <div>
+    //     <h1 className="hi">Super convertor</h1>
+    //     <div>
+    //       <label htmlFor="minutes">Minutes</label>
+    //         <input
+    //           value={minutes}
+    //           placeholder="minutes"
+    //           id="minutes"
+    //           type="number"
+    //           onChange={onChangee} />
+    //     </div>
+        
+    //     <h4>minutes {minutes}</h4>
+    //     <div>
+    //       <label htmlFor="hours">hours</label>
+    //       <input 
+    //         value={Math.round(minutes/60)} 
+    //         placeholder="hours" 
+    //         id="hours"
+    //         type="number" />
+    //     </div>
+    //     <h4>hours {Math.round(minutes / 60)}</h4>
+
+    //     <button onClick={reset}>Reset</button>
+        
+    //   </div>
+    //   ) // hours를 나타내는 input은 onchange 함수가 없으므로 값을 바꿀순 없음, 
+    // } // jsx 에서 class > classNAme / label for > htmlFor 로 사용해야함
+    // ReactDOM.render(<App />, root);
+
+    /* 3.4 state function */
+    // const root = document.getElementById("root");
+    // function App() {
+    //   const [counter, setCounter] = React.useState(0);
+    //   const onClickk = () => {
+    //     setCounter((current) => current+1)
+    //   }
+    //   console.log("rendered")
+    //   console.log(counter)
+    //   return (
+    //     <div>
+    //       <h3>Total Clicks: {counter} </h3> 
+    //       <button onClick={onClickk}>Click me</button>
+    //     </div>
+    //   )
+    // }
+
+    /* 3.2 setState */
+    // const root = document.getElementById("root");
+    // function App() {
+    //   const [counter, setCounter] = React.useState(0); // 해당 줄이 let counter = 0 (변수 정의 및 초기화), function setCounter() {} (함수정의) 각각 뿌려줌
+    //   const onClickk = () => {
+    //     setCounter(counter + 1)
+    //     console.log(setCounter)
+    //   } // setCounter 함수 정의하여 새로운값 정의
+    //   console.log("rendered")
+    //   console.log(counter)
+    //   return (
+    //     <div>
+    //       <h3>Total Clicks: {counter} </h3> 
+    //       <button onClick={onClickk}>Click me</button>
+    //     </div>
+    //   ) // 사용자가 보게될 컴포넌트 {counter}를 불러오고, counter값을 바꿔줄 함수 호출
+    // } // modifer 함수를 가지고 state를 변경할때, 컴포넌트가 재생성, 새로운값을 가지고 리렌더링
+    // ReactDOM.render(<App />, root);
+
+    // ReactDOM.render(<App />, root);
+    /* 3.1 state */
+    // let counter = 0;
+    // function countUp() {
+    //   counter = counter + 1;
+    //   reRender()
+    // }
+    // function reRender() {
+    //   ReactDOM.render(<App />, root);
+    // }
+    // function App() {
+    //   return (
+    //     <div>
+    //       <h3>Total Clicks: {counter}</h3>
+    //       <button onClick={countUp}>Click me</button>
+    //     </div>
+    //   )
+    // }
+    // reRender()
+    
+  
+  </script>
+</html>

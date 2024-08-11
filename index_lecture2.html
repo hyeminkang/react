@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script> <!-- 인터랙티브를 만들어주는 라이브러리 -->
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script> <!-- 리액트돔, 패키지 모든 리액트엘리먼트들을 html body 에 둘수있도록 해줌 -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    const root = document.getElementById("root");
+    function Title() {
+      return (
+        <h3 id="title" onMouseEnter={() => console.log('마우스 닿아따')}>
+          Hello, I'm a title
+        </h3>
+      )
+    }
+
+    // (
+    //   <h3 id="title" onMouseEnter={() => console.log('마우스 닿아따')}>
+    //     Hello, I'm a title
+    //   </h3>
+    // );
+    const Button = () => (
+      <button 
+      style={{
+          backgroundColor: 'tomato',
+        }} 
+        onClick={() => console.log('눌러따')}>Click Me
+    </button>
+    ); // = () => ( 가 function return 이랑 같은 말 
+    /*const h3Name = React.createElement(
+      "h3",
+      {
+        id:'title',
+        onMouseEnter: () => console.log('마우스 닿아따')
+      },
+      //{id:"sexy-span", style:{color:'red'} },
+      "Hello, I'm a span"
+    ) 오래된 방식 */ // createElement()사이로 오는 태그는 html 태그와 같아야함(div, button, p 모두 가능) / 두번째 인자는, span에 id ="sexy-span"을 만들어라 뭐 그런의미, id 값을 넣을수도있지만, style도 가능  / 세번째 인자는 span의 내용
+    //ReactDOM.render(spanName, root) // render는 react element를 가지고 html로 만들어 배치한다는 것 (사용자에게 보여준다의 의미)
+    // 추후 span > h3 로 변경
+
+    // const buttonName = React.createElement(
+    //   "button",
+    //   {
+    //     onClick: () => console.log('눌러따'),
+    //     style: {
+    //       backgroundColor: 'tomato'
+    //     },
+    //   },
+    //   "Click Me"
+    // )
+    //const divRender = React.createElement("div", null, [h3Name, buttonName]); // span button 모두 root에 넣고 싶어서 새로만든 divRende
+    const Container = () => (<div>
+      <Title />
+      <Button />
+      </div>
+     ) // <div>Title Button </div> 이렇게 하면 그냥 Html처럼 텍스트를 뿌려주는거고, Button,Title 두개를 함수로 만들어줘야함 function Button = () => 이런식으로 
+      // JSX로 불러올땐 꼭! Title Button 식처럼 대문자여야함 
+    ReactDOM.render(<Container />, root)
+    //ReactDOM.render(divRender, root) root 에 divRender를 뿌려준다 
+    
+  
+  </script>
+</html>

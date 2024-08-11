@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script> <!-- 인터랙티브를 만들어주는 라이브러리 -->
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script> <!-- 리액트돔, 패키지 모든 리액트엘리먼트들을 html body 에 둘수있도록 해줌 -->
+  <script src="https://unpkg.com/prop-types@15.7.2/prop-types.js"></script> <!-- Prop Types 패키지 -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script> 
+  <script type="text/babel">
+
+    // Props는 일종의 방식, 부모 컴포넌트로부터 자식 컴포넌트에 데이터를 보낼 수 있게 해주는 방법 (이전 강의를 예로 들면 App()은 부모 컴포넌트, MinutesTohours / kmToMiles 는 자식 컴포넌트 근데 이전 강의에선 독립적으로 사용했고 데이터를 받지않는데 props는 받게해줌)
+    // function App() {} >> 이건 컴포넌트(캄포넌트는 JSX를 반환하는 함수) / function SaveBtn() {} >> 이건 함수 
+    // App() 영역에선 단지 함수를 불러내는 것 뿐, 부른 함수는 함수형 컴포넌트라고 부름
+    // <div> 내로는 jsx내부라고 부르고, confirmBtn 컴포넌트
+    // App()내 text 는 내마음대로 변경 가능/ 니꼬샘은 banana 사용 저기내용은 Btn({text:"Save Changes"}) 와 같은의미
+    // Btn(props)를 줄여서 Btn({text})로 사용가능한데, 그러면 하단에 props.text가 아닌, text로 바로 사용가능
+
+
+    //Btn 으로 들어가는 onClick은 props고 이벤트리스너가 아님, prop의 이름일뿐 btn안으로 전달되고 있는거임! 이벤트리스너가 되려면 button 내 onClick 으로 존재하여야함 
+    // App() >> 아빠부모가 변경이 되면 (어떤 state라도 변경이되면) 모든 자식들이 다시그려짐 이건, 추후 어플리케이션이 느려지는 원인이 될수있음
+
+
+    function Btn({ text, fontSize  }) {
+      return <button style={{
+        backgroundColor:"tomato",
+        color:"white",
+        padding:"10px 20px",
+        border:"none",
+        borderRadius:"10px",
+        fontSize
+      }}>
+      {text}
+      </button>;
+    }
+    Btn.propTypes = {
+      text: PropTypes.string,
+      fontSize: PropTypes.number,
+    };
+
+    function App() {
+      
+      return (
+      <div>
+        <Btn text="Save Changes" fontSize={18} />
+        <Btn fontSize={14} text={"Continue"} />
+      </div>
+      ) 
+    }
+    const root = document.getElementById("root");
+    ReactDOM.render(<App />, root);
+
+    // 4.1
+    // function Btn({ text, changeValue }) {
+    //   console.log(text, "was rendered") //  {text: 'Save Changes'} / {text: 'Continue'} 찍힘
+    //   return <button 
+    //     onClick={changeValue}
+    //     style={{
+    //       backgroundColor:"tomato",
+    //       color:"white",
+    //       padding:"10px 20px",
+    //       border:0,
+    //       borderRadius:10,
+    //       fontSize:"16"
+    //   }}>
+    //   {text}
+    //   </button>;
+    // }
+    
+    // function App() {
+    //   const [value, setValue] = React.useState("Save Changes")
+    //   const changeValue2 = () => setValue("Revert changes")
+    //   return (
+    //   <div>
+    //     <Btn text={value} changeValue={changeValue2} /> 
+    //     <Btn text="Continue" />
+        
+    //   </div>
+    //   ) 
+    // }
+    // const root = document.getElementById("root");
+    // ReactDOM.render(<App />, root);
+
+    // 4.0
+    // function Btn({ text, big }) {
+    //   console.log(text, big) //  {text: 'Save Changes'} / {text: 'Continue'} 찍힘
+    //   return <button style={{
+    //     backgroundColor:"tomato",
+    //     color:"white",
+    //     padding:"10px 20px",
+    //     border:"none",
+    //     borderRadius:"10px",
+    //     fontSize : big ? 18 : 16
+    //   }}>
+    //   {text}
+    //   </button>;
+    // }
+    
+    // function App() {
+      
+    //   return (
+    //   <div>
+    //     <Btn text="Save Changes" big={true} />
+    //     <Btn text="Continue" big={false} />
+        
+    //   </div>
+    //   ) 
+    // }
+    // const root = document.getElementById("root");
+    // ReactDOM.render(<App />, root);
+  
+  </script>
+</html>
