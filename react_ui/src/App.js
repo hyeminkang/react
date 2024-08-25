@@ -1,46 +1,46 @@
 import { useState, useEffect } from "react";
 
 function App() { 
-  const [toDo, setToDo] = useState("");
-  const [toDos, setToDos] = useState([])
-  const onChangee = (event) => setToDo(event.target.value);
-  const onSubmitt = (event) => {
-    event.preventDefault();
-    //console.log(toDo);
-    if (toDo === "") {
-      return;
-    } 
-    setToDo("")
-    setToDos(currentArray => [toDo, ...currentArray])
-    /*toDos.push() 자바스크립트였다면 이렇게 추가 */
-  }// setToDo는 toDo값을 수정하는 함수,  toDo는 input과 연결되어있음
-  //console.log(toDos)
-  /*setToDos(fucntion(currentArray) {
-  return 
-  })*/
-  //console.log(toDos);
+  const [loading, setLoading] = useState(true);
+  const [coins, setCoins] = useState([])
+  const [money, setMoney] = useState();
+  const onChangee = (event) => setMoney(event.target.value);
+  useEffect(() => {;
+    fetch("https://api.coinpaprika.com/v1/tickers")
+      .then((response) => response.json())
+      .then((json) => {
+        setCoins(json);
+        setLoading(false)
+      });
+  }, [])
   return (
     <div>
-      <h1>my To Dos ({toDos.length})</h1>
-      <form onSubmit={onSubmitt}>
+      <h1>The Coins! {loading ? "" : `(${coins.length})`}</h1>
+      
+      {loading ? <strong>Loading...</strong> :
+        <select>
+          {coins.map((coin) => (<option key={coin.id}> {coin.name}  ({coin.symbol}) : ${coin.quotes.USD.price} USD</option>))}
+        </select>
+      }
+
+      <br /><br />
+      
+      <form >
         <input
           onChange={onChangee}
-          value={toDo}
-          type="text"
-          placeholder="Write your to do..."
+          value={money}
+          type="number"
+          placeholder="Write money"
         />
         <button >Add To Do</button>
       </form>
-      <hr />
-      <ul>
-        {toDos.map((item, index) => (
-          <li key={index}>{item}</li>
-        ))}
-      </ul>
+      
     </div>
-  )
-} // array를 가져와서 item을 변형해서 li가 되도록 한것, 
-// array는 단순문자열로 구성된 배열
-//리턴하는 값이 어떤값이든 새로운 배열이 됨
-
+  );
+  
+} 
 export default App;
+
+{/* <ul>
+        {coins.map((coin) => <li>{coin.name}  ({coin.symbol}) : ${coin.quotes.USD.price} USD</li>)}
+      </ul> */}
