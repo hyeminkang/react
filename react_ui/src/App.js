@@ -1,40 +1,46 @@
 import { useState, useEffect } from "react";
 
-function Hello() {
-  // function byeFn() {
-  //   console.log("bye :(");
-  // }
-
-  // function hiFn() {
-  //   console.log("created :)");
-  //   return byeFn;
-  // }; // byeFn 이 언제파괴되었는지 알고싶으면, hiFn에 넣어주어야함
-
-  useEffect(() => {
-    console.log('hi -1 ');
-    return () => console.log("bye -1")
-  }, [])
-
-  useEffect(function(){ 
-    console.log('hi -2 ');
-    return function () {
-      console.log("bye -2")
-    }
-  }, [])
-
-  return <h1>Hello</h1> 
-} // jsx 를 return 하는 함수
-//cleanup function destroy될때 뭔가할수있도록 해줌, api를 보낼수있음, event listner를 지우거나 console.log에 뭘 할수있거나 등등 
 function App() { 
-  const [showing, setShowing] = useState(false);
-  const onClickk = () => setShowing((prev) => !prev)
-
+  const [toDo, setToDo] = useState("");
+  const [toDos, setToDos] = useState([])
+  const onChangee = (event) => setToDo(event.target.value);
+  const onSubmitt = (event) => {
+    event.preventDefault();
+    //console.log(toDo);
+    if (toDo === "") {
+      return;
+    } 
+    setToDo("")
+    setToDos(currentArray => [toDo, ...currentArray])
+    /*toDos.push() 자바스크립트였다면 이렇게 추가 */
+  }// setToDo는 toDo값을 수정하는 함수,  toDo는 input과 연결되어있음
+  //console.log(toDos)
+  /*setToDos(fucntion(currentArray) {
+  return 
+  })*/
+  //console.log(toDos);
   return (
     <div>
-      {showing ? <Hello /> : null}
-      <button onClick={onClickk}>{ showing ? "Hide" : "Show"}</button>
+      <h1>my To Dos ({toDos.length})</h1>
+      <form onSubmit={onSubmitt}>
+        <input
+          onChange={onChangee}
+          value={toDo}
+          type="text"
+          placeholder="Write your to do..."
+        />
+        <button >Add To Do</button>
+      </form>
+      <hr />
+      <ul>
+        {toDos.map((item, index) => (
+          <li key={index}>{item}</li>
+        ))}
+      </ul>
     </div>
-  );
-}
+  )
+} // array를 가져와서 item을 변형해서 li가 되도록 한것, 
+// array는 단순문자열로 구성된 배열
+//리턴하는 값이 어떤값이든 새로운 배열이 됨
 
 export default App;
