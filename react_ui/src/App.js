@@ -1,46 +1,26 @@
-import { useState, useEffect } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link
+} from "react-router-dom";
+import Home from "./routes/Home";
+import Detail from "./routes/Detail";
 
 function App() { 
-  const [loading, setLoading] = useState(true);
-  const [coins, setCoins] = useState([])
-  const [money, setMoney] = useState();
-  const onChangee = (event) => setMoney(event.target.value);
-  useEffect(() => {;
-    fetch("https://api.coinpaprika.com/v1/tickers")
-      .then((response) => response.json())
-      .then((json) => {
-        setCoins(json);
-        setLoading(false)
-      });
-  }, [])
-  return (
-    <div>
-      <h1>The Coins! {loading ? "" : `(${coins.length})`}</h1>
-      
-      {loading ? <strong>Loading...</strong> :
-        <select>
-          {coins.map((coin) => (<option key={coin.id}> {coin.name}  ({coin.symbol}) : ${coin.quotes.USD.price} USD</option>))}
-        </select>
-      }
-
-      <br /><br />
-      
-      <form >
-        <input
-          onChange={onChangee}
-          value={money}
-          type="number"
-          placeholder="Write money"
-        />
-        <button >Add To Do</button>
-      </form>
-      
-    </div>
-  );
+  return <Router>
+    <Routes>
+      <Route path="/" element={< Home />} />
+      <Route path="/movie" element={< Detail />} />
+    </Routes>
+  </Router>;
   
 } 
 export default App;
 
-{/* <ul>
-        {coins.map((coin) => <li>{coin.name}  ({coin.symbol}) : ${coin.quotes.USD.price} USD</li>)}
-      </ul> */}
+
+// Hash Router , BrowserRouter 두가지 
+// ㄴ 차이점은 url, HashRouter는 #이 붙음
+// Router 먼저 렌더링됨
+// 스위치는 라우터를 찾는걸 함, 하나의 라우트만 렌더링하기위함
+// Link 재실행되는걸 막는 컴포넌트
