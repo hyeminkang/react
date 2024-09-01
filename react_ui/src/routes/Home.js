@@ -25,6 +25,7 @@ function Home() {
             {movies.map(movie => (
               <Movie
                 key={movie.id}
+                id={movie.id}
                 CoverImg={`https://image.tmdb.org/t/p/w200`+movie.poster_path}
                 title={movie.title}
                 overview={movie.overview}
