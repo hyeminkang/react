@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.js": "/react_ui/static/js/main.50ba2f2a.js",
-    "index.html": "/react_ui/index.html",
-    "main.50ba2f2a.js.map": "/react_ui/static/js/main.50ba2f2a.js.map"
+    "main.js": "/react/react_ui/static/js/main.50ba2f2a.js",
+    "index.html": "/react/react_ui/index.html",
+    "main.50ba2f2a.js.map": "/react/react_ui/static/js/main.50ba2f2a.js.map"
   },
   "entrypoints": [
     "static/js/main.50ba2f2a.js"
